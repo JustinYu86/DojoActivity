@@ -1,0 +1,30 @@
+﻿*{
+    margin: 0px;
+    padding: 0px;
+}
+
+.wrapper{
+    width: 1000px;
+    height: 1000px;
+}
+
+.container{
+    width: 400px;
+    height: 700px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 20px;
+}
+
+label{
+    width:180px;
+    margin-top: 25px;
+}
+
+button{
+    margin-top: 20px;
+}
+
+span{
+    color: red;
+}

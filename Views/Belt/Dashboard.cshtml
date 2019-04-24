@@ -1,0 +1,63 @@
+@model Dashboard
+
+
+<h1>Dojo Activity Center</h1>
+
+
+<h2>Hello @Model.User.FirstName @Model.User.LastName</h2>
+
+<a style="float: right;" href="/logout">Logout</a>
+<a style="float: right;" href="/Dashboard">Home</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+        <th>Activity</th>
+        <th>Date and Time</th>
+        <th>Duration</th>
+        <th>Coordinator</th>
+        <th>No.of Participants</th>
+        <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var item in Model.allActivities)
+        {
+        <tr>
+            <td><a href="/viewz/@item.ActivityId">@item.Title</a></td>
+            <td>@item.Date.ToString("M/dd") at @item.Time.ToString("h:mm tt")</td>
+            <td>@item.Duration</td>
+            <td>@item.User.FirstName</td>
+            <td>@item.Participants.Count</td>
+            <td>
+                @{
+                    @if(Model.User.UserId == item.UserId)
+                    {
+                        <a href="/delete/@item.ActivityId">Delete</a>
+                    }
+                    bool contained = false;
+                    @foreach(var i in item.Participants)
+                    {
+                        if(Model.User.UserId == i.ParticipatingUsers.UserId)
+                        {
+                            contained = true;
+                        }
+                    }
+                    @if(contained == true && Model.User.UserId != item.UserId)
+                    {
+                        <a href="/leave/@item.ActivityId">Leave</a>
+                    }
+                    @if(contained == false && item.UserId != Model.User.UserId)
+                    {
+                        <a href="/join/@item.ActivityId">Join</a>
+                    }
+                }
+            </td>
+        </tr>
+        }
+
+
+        
+    </tbody>
+</table>
+    <a href="/view"><Button class="btn btn-primary">New Activity</Button></a>

@@ -1,0 +1,43 @@
+@model Dashboard
+
+<h1>Dojo Activity Center</h1>
+
+<a style="float: right" href="/Dashboard"> Home</a>
+<a style="float: right" href="/logout">Logout  |</a>
+<hr>
+@foreach(var item in Model.allActivities)
+{
+    <h1>@item.Title</h1>
+                
+                    @if(Model.User.UserId == item.UserId)
+                    {
+                        <a href="/delete/@item.ActivityId">Delete</a>
+                    }
+                    bool contained = false;
+                    @foreach(var i in item.Participants)
+                    {
+                        if(Model.User.UserId == i.ParticipatingUsers.UserId)
+                        {
+                            contained = true;
+                        }
+                    }
+                    @if(contained == true && Model.User.UserId != item.UserId)
+                    {
+                        <a href="/leave/@item.ActivityId">Leave</a>
+                    }
+                    @if(contained == false && item.UserId != Model.User.UserId)
+                    {
+                        <a href="/join/@item.ActivityId">Join</a>
+                    }
+                
+<h3>Coordinator:@item.User.FirstName @item.User.LastName</h3> 
+
+<h3>Description:@item.Description</h3>
+<p></p>
+
+<h3>Participants:</h3>
+    @foreach(var i in item.Participants)
+    {
+    <p>@i.ParticipatingUsers.FirstName @i.ParticipatingUsers.LastName</p>
+    }
+}
